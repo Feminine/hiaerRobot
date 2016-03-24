@@ -1,0 +1,667 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+		<meta name="format-detection" content="telephone=no">
+		<script type="text/javascript" src="http://storage.360buyimg.com/devh5/1431152228724_jquery.js"></script>
+		<script type="text/javascript" src="http://storage.360buyimg.com/devh5/1431576139678_jdsmart-1.0.0.js"></script>
+		
+		<!-- <script type="text/javascript" src="http://storage.jd.com/testsmartcloud/jdsmart-pc-1.0.1.js"></script> -->
+
+		<link rel="stylesheet" type="text/css" href="./css/index.css" />
+		<script type="text/javascript" src="./js/setTime.js"></script>
+		<title>定时设置</title>
+	</head>
+
+	<body>
+		<div class="warning"></div>
+		<section id="mainPage" class="mainbg">
+			<div class="mengban_box">
+				<div class="power_off" style="display:none;"></div>
+				<div class="no_task">还没有定时任务！</div>
+				<div class="timePlace">
+					<!--   <div class="cardbg timeBox" data-name="" data-opentaskid="" data-closetaskid="">
+      <div class="cardbgbtn"><h3>定时1<a class="dele">删除</a></h3></div>
+      <div class="timeCard setTimeList">
+        <div class="cardbgbtn setTMOpenbtn">
+          <div class="savewater_off mengban_off" style="display:none;"></div>
+          <span class="nameh3">开机</span>
+          <span class="timeResBox">
+            <em class="timeResHour">10</em>:
+            <em class="timeResMinutes">30</em>
+          </span>
+        </div>
+        <div class="cardbgbtn setTMClosebtn">
+          <div class="savewater_off mengban_off" style="display:none;"></div>
+          <span class="nameh3">关机</span>
+          <span class="timeResBox">
+            <em class="timeResHour">15</em>:
+            <em class="timeResMinutes">30</em>
+          </span>
+        </div>
+      </div>
+      <span class="reviewDays">周一 二</span>
+      <div class="arrowgray arrow_left" id="next_page"></div>
+    </div> -->
+
+				</div>
+				<div class="addedTimeBtn">
+					<div class="cardbgbtn">
+						<span class="nameh3">增加定时</span>
+					</div>
+				</div>
+				<!-- 蒙版：设备是否在线 -->
+			</div>
+
+		</section>
+		<!-- <div class="mengban_off_setTime" style="display:none"></div> -->
+		<div class="mengban"></div>
+		<!--加载动画-->
+		<div class="loader" style="display:none">
+			<div class=" ball-beat">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<style type="text/css">
+			.washSetMore span.hidden {
+				display: none;
+			}
+			
+			.arrow_left {
+				-webkit-transform: rotate(90deg);
+				-moz-transform: rotate(90deg);
+				-ms-transform: rotate(90deg);
+				-o-transform: rotate(90deg);
+				transform: rotate(90deg)
+			}
+			
+			.check_ok {
+				margin: 2px;
+				width: 20px;
+				height: 16px;
+				display: inline-block;
+				background: url('./images/check_ok.png') no-repeat;
+				background-size: 20px auto;
+				position: absolute;
+				top: 14px;
+				right: 16px
+			}
+			
+			.cardbg {
+				padding: 0;
+			}
+			
+			.cardbgbtn {
+				width: auto;
+				padding: 18px 14px;
+				background: #fff;
+				color: #666;
+				font-size: 16px;
+				position: relative;
+				overflow: hidden;
+				border-bottom: 1px #dcdcdc solid;
+			}
+			
+			.setTemp {
+				padding: 0 16px;
+				height: 50px;
+				line-height: 50px;
+				position: relative;
+				border-bottom: 1px #dcdcdc solid;
+			}
+			
+			.setTMOpenbtn,
+			.setTMClosebtn {
+				border-bottom: none;
+				padding: 5px 10px;
+			}
+			
+			.setTMClosebtn {
+				padding-top: 0px;
+			}
+			
+			.setTMOpenbtn .funcbtnP,
+			.setTMClosebtn .funcbtnP {
+				top: 12px;
+			}
+			
+			.setTMOpen,
+			.setTMClose {
+				padding: 0 16px;
+				height: 50px;
+				line-height: 50px;
+				position: relative;
+			}
+			
+			.addedTimeBtn .cardbgbtn {
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+				text-align: center;
+				/*background: #19d2ee;*/
+				background: #0475D4;
+				line-height: 14px;
+				width: 80%;
+				margin: 0 auto;
+			}
+			
+			.deleteBtn .cardbgbtn span,
+			.addedTimeBtn .cardbgbtn span {
+				color: #fff;
+			}
+			
+			.addedTimeBtn {
+				position: fixed;
+				bottom: 16px;
+				left: 0;
+				width: 100%;
+			}
+			
+			.operateBtn .saveBtn,
+			.operateBtn .deleteBtn {
+				/*background: #19d2ee;*/
+				background: #0475D4;
+				padding: 10px 0;
+				margin: 0;
+				border-radius: none;
+				width: 100px;
+				width: 50%;
+				text-align: center;
+			}
+			
+			.saveBtn {
+				float: left;
+				color: #fff;
+			}
+			
+			.deleteBtn {
+				float: right;
+				color: #fff;
+			}
+			
+			.operateBtn .border_left {
+				border-left: 1px solid #fff;
+				margin-right: -1px;
+			}
+			
+			.deleteBtn .cardbgbtn {
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+				text-align: center;
+				/*background: #19d2ee;*/
+				background: #0475D4;
+				line-height: 14px;
+				width: 100%;
+				margin: 0 auto;
+			}
+			
+			.reviewDays {
+				font-size: 14px;
+				color: #999;
+				position: absolute;
+				top: 28px;
+				right: 38px;
+			}
+			
+			.reviewSingle {
+				font-size: 14px;
+				color: #999;
+				position: absolute;
+				top: 14px;
+				right: 38px;
+			}
+			
+			.days {
+				color: #999;
+			}
+			/*#next_page{top: 90px;right:10px;}*/
+			
+			.timeAMPM,
+			.tempName {
+				color: #999;
+			}
+			
+			.timeResBox {
+				color: #999;
+				font-size: 22px;
+				font-weight: 500;
+			}
+			
+			.tempResBox {
+				color: #999;
+				font-size: 22px;
+				font-weight: 500;
+			}
+			
+			.setTemp .on,
+			.setTMClosebtn .on,
+			.setTMOpenbtn .on {
+				/*color: #19d2ee;*/
+				color: #0475D4;
+			}
+			
+			.hordirbtn {
+				border-top: 1px solid #dcdcdc;
+			}
+			
+			.mengban_setBox {
+				position: fixed;
+				width: 100%;
+				top: 0;
+				bottom: 0px;
+				left: 0;
+				background: rgba(0, 0, 0, 0.5);
+				overflow: hidden;
+				z-index: 15;
+			}
+			
+			.setBox_mengban {
+				position: absolute;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 15;
+			}
+			
+			.timeSetBox,
+			.tempSetBox {
+				background: #fff;
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				z-index: 20;
+			}
+			
+			.tempSetTitle {
+				border-bottom: 1px solid #dcdcdc;
+				text-align: center;
+				padding: 10px 20px;
+			}
+			
+			.timeCancel,
+			.tempCancel {
+				float: left;
+			}
+			
+			.timeSubmit,
+			.tempSubmit {
+				float: right;
+			}
+			
+			.tempsetName {
+				color: #666;
+			}
+			
+			.slider_box {
+				padding: 20px 0;
+			}
+			
+			.markBox {
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			/* 定时插件 */
+			
+			.time_box {
+				margin: 0 16px;
+				width: 80%;
+				margin: auto;
+				padding: 10px 0
+			}
+			
+			.time_box .tit {
+				height: 32px;
+				border-bottom: 2px solid #c5bcb2;
+				text-align: center;
+			}
+			
+			.time_box .tit span {
+				display: inline-block;
+				width: 50%;
+				height: 32px;
+				font-size: 14px;
+				line-height: 32px;
+			}
+			
+			.time_box .bg {
+				height: 36px;
+				overflow: hidden;
+				margin: 32px 0;
+				color: #666;
+				font-size: 12px;
+				text-align: center;
+				line-height: 40px;
+				border-top: #dcdcdc 1px solid;
+				border-bottom: #dcdcdc 1px solid
+			}
+			
+			.time_box .bg span {
+				display: inline-block;
+				float: left;
+				width: 38%;
+				text-align: right
+			}
+			
+			.time_box .bg span.sp {
+				display: inline-block;
+				width: 50%;
+				text-align: right
+			}
+			
+			.time_box .box {
+				width: 100%;
+				height: 120px;
+				position: relative;
+				margin: -108px 0 0;
+				overflow: hidden;
+			}
+			
+			.time_box .box .roll_box {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 50%;
+				height: 115px;
+				overflow: hidden;
+			}
+			
+			.time_box .box ol {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 50%;
+			}
+			
+			.time_box .box li {
+				height: 38px;
+				border: none;
+				color: #666;
+				font-size: 14px;
+				text-align: center;
+				line-height: 38px;
+				transition: all 0.2s linear;
+				-webkit-transition: all 0.2s linear;
+			}
+			
+			.time_box .box li.on {
+				color: #333;
+				font-size: 20px;
+			}
+			
+			.time_box .col1 .hour {
+				left: 25%;
+			}
+			
+			.time_box .col2 .hour {
+				left: 10%;
+			}
+			
+			.time_box .col2 .minute {
+				left: 42%;
+			}
+			
+			.time_box .col3 .minute {
+				left: 0%;
+			}
+			
+			.time_box .col3 .second {
+				left: 50%;
+			}
+			
+			.time_box .col2 .roll_box {
+				left: 0%;
+			}
+			
+			.time_box .col2 .rb_right {
+				left: 30%;
+			}
+			
+			@media (max-width:340px) {
+				header {
+					height: 125px;
+				}
+				.theme {
+					padding: 0 0 15px 0;
+					font-size: 22px
+				}
+				.time_box {
+					padding-top: 0
+				}
+				.time_box .box {
+					height: 108px;
+					margin: -94px 0 0;
+					font-size: 14px;
+				}
+				.time_box .box li {
+					height: 34px;
+					font-size: 12px;
+					line-height: 34px;
+				}
+				.time_box .bg {
+					height: 36px;
+					margin: 24px 0;
+					font-size: 12px;
+				}
+				.time_box .bg span {
+					width: 34%;
+				}
+				.time_box .box .roll_box {
+					height: 103px;
+				}
+				.szlist .trigger {
+					height: 26px;
+					line-height: 26px;
+					border-radius: 18px;
+				}
+			}
+			
+			.timeCard {
+				width: auto;
+				background: #fff;
+				color: #666;
+				font-size: 16px;
+				position: relative;
+				overflow: hidden;
+				border-radius: 5px;
+			}
+			
+			.dele {
+				width: 22px;
+				height: 22px;
+				display: block;
+				text-indent: -9999px;
+				position: absolute;
+				top: 50%;
+				right: 16px;
+				margin-top: -11px;
+				background: url(./img/deleico.png) no-repeat;
+				background-size: 100%
+			}
+			
+			.timebox .btn {
+				width: 58px;
+				height: 28px;
+				position: absolute;
+				top: 50%;
+				right: 12px;
+				margin-top: -16px;
+				z-index: 1;
+				border: #c8c8c8 1px solid;
+				border-radius: 20px;
+				-webkit-transition: 0.3s ease-in-out;
+				transition: 0.3s ease-in-out;
+			}
+			
+			.timebox .btn span {
+				display: block;
+				position: absolute;
+				top: 8px;
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+				background: #c8c8c8;
+				cursor: pointer;
+				left: 8px;
+				transition: all 0.4s linear;
+				-webkit-transition: all 0.4s linear;
+			}
+			
+			.timebox .on {
+				border: #6a98d7 1px solid;
+			}
+			
+			.timebox .on span {
+				left: 38px;
+				background: #6a98d7
+			}
+			
+			.timebox ul.radio_box li {
+				position: relative;
+				font-size: 14px;
+				color: #999;
+				overflow: hidden;
+				border-top: #eaeaea 1px solid;
+			}
+			
+			.timebox ul.radio_box li .radio {
+				display: none;
+			}
+			
+			.timebox ul.radio_box li .trigger {
+				cursor: pointer;
+				position: relative;
+				width: 90%;
+				display: block;
+				padding: 4% 5%;
+				-webkit-transition: background .15s linear;
+				transition: background .15s linear;
+			}
+			
+			.timebox ul.radio_box li .trigger i {
+				position: absolute;
+				width: 24px;
+				height: 24px;
+				top: 34px;
+				right: 17px;
+				margin-top: -18px;
+				background: none;
+				background-size: cover;
+				overflow: hidden;
+			}
+			
+			.timebox ul.radio_box li .radio:checked + .trigger {
+				color: #333
+			}
+			
+			.timebox ul.radio_box li .radio:checked + .trigger i {
+				background: url('./img/check_ok.png') no-repeat;
+				-webkit-background-size: 20px auto;
+				-o-background-size: 20px auto;
+				background-size: 20px auto;
+				/*background-size:cover*/
+			}
+			
+			.no_task {
+				width: 100%;
+				text-align: center;
+				margin: 200px auto;
+			}
+			
+			.timePlace {
+				position: fixed;
+				width: 100%;
+				left: 0;
+				top: 0;
+				bottom: 73px;
+				overflow: auto;
+			}
+		</style>
+		<!-- <script type="text/javascript" src="./js/index.js"></script> -->
+		<script type="text/javascript">
+			//app进入初始化
+			var _this = JDsetTime;
+			var setTime = "./setTime.html";
+			var feedid = JDsetTime.GetQueryString("feedid");
+			JDsetTime.feedid = feedid;
+			console.log("setTimeList feedid: " + feedid);
+			JDSMART.ready(function() {
+				// JDsetTime.getTimedTaskByFeedIds(feedid);
+				_this.getAlltask(feedid);
+				// JDsetTime.initList(); 
+			});
+
+			function itemJump(item) {
+				console.log("itemJump--->");
+				console.log(item);
+				console.log("itemJump---<");
+				var opentaskid = $(item).attr("data-opentaskid") ? $(item).attr("data-opentaskid") : null;
+				var closetaskid = $(item).attr("data-closetaskid") ? $(item).attr("data-closetaskid") : null;
+				var nameNum = $(item).attr("data-name") ? $(item).attr("data-name") : null;
+				var OpenState = {
+						sataState: null,
+						times: null,
+						review: null
+					},
+					CloseState = {
+						sataState: null,
+						times: null,
+						review: null
+					};
+				if (closetaskid != "null") {
+					console.log("closetaskid goin");
+					CloseState.sataState = $(item).find(".setTMClosebtn").attr("data-setTMClosebtn");
+					CloseState.times = $(item).find(".setTMClosebtn").attr("data-value");
+					CloseState.review = $(item).find(".reviews").text();
+					sessionStorage.setItem("CloseState", JSON.stringify(CloseState));
+				}
+				if (opentaskid != "null") {
+					console.log("opentaskid goin");					
+					OpenState.sataState = $(item).find(".setTMOpenbtn").attr("data-setTMOpenbtn");
+					OpenState.times = $(item).find(".setTMOpenbtn").attr("data-value");
+					OpenState.review = $(item).find(".reviews").text();
+					sessionStorage.setItem("OpenState", JSON.stringify(OpenState));
+				}
+				console.log("gotoModify opentaskid: " + JSON.stringify(opentaskid) + " closetaskid:" + JSON.stringify(closetaskid));
+				console.log("gotoModify  定时开启是否启用:--> ");
+				console.log(OpenState);
+				console.log("gotoModify 定时关闭是否启用:--->");
+				console.log(CloseState);
+				console.log("gotoModify  定时是否启用---<");
+				window.location.href = setTime + "?feedid=" + _this.feedid + "&?opentaskid=" + opentaskid + "&?closetaskid=" + closetaskid + "&?nameNum=" + nameNum;
+				// alert("setTime + "?feedid=" + _this.feedid + "&?opentaskid=" + opentaskid + "&?closetaskid=" + closetaskid + "&?nameNum=" + nameNum")
+				// console.log(setTime + "?feedid=" + _this.feedid + "&?opentaskid=" + opentaskid + "&?closetaskid=" + closetaskid + "&?nameNum=" + nameNum);
+			}
+
+			function itemDele(item) {
+				console.log("itemDele--->");
+				console.log(item);
+				console.log("itemDele---<");
+				var opentaskid = $(item).attr("data-opentaskid") ? $(item).attr("data-opentaskid") : null;
+				var closetaskid = $(item).attr("data-closetaskid") ? $(item).attr("data-closetaskid") : null;
+				console.log("gotoDelet opentaskid: " + opentaskid + " closetaskid:" + closetaskid);
+				$(item).remove();
+				if (opentaskid != "null") {
+					_this.removeTimedTask(opentaskid);
+				}
+				if (closetaskid != "null") {
+					_this.removeTimedTask(closetaskid);
+				}
+			}
+			$(".addedTimeBtn").click(function() {
+				// window.location.href = setTime + "?feedid=" + _this.feedid+"&?opentaskid=null&?closetaskid=null";
+				window.location.href = setTime + "?feedid=" + _this.feedid;
+			});
+			// $(".addedTimeBtn").click(function() {
+			// 	window.location.href = setTime + "?feedid=" + _this.feedid;
+			// });
+		</script>
+	</body>
+
+</html>

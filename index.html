@@ -1,0 +1,1419 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+		<meta name="format-detection" content="telephone=no">
+		<script type="text/javascript" src="http://storage.360buyimg.com/devh5/1431152228724_jquery.js"></script>
+		<script type="text/javascript" src="http://storage.360buyimg.com/devh5/1431576139678_jdsmart-1.0.0.js"></script>
+		<!-- <script type="text/javascript" data-main="./steeringWheel.js"></script> -->
+		<script type="text/javascript" src="http://static.360buyimg.com/smart/jdsmart-1.0.2.js"></script>
+		<title>海尔</title>
+		 <link rel="stylesheet" type="text/css" href="./css/index.css" />
+		<style type="text/css">
+		.themeColor {
+		    color: #0475d4;
+
+		}
+		/*BOX*/
+		/*.qjBox{padding-top: 0px;}*/
+		.cardinbg{padding-top: 0px;}
+		.control-panel {background-size: 194px; }
+		.steering-wheel {
+		    position: relative;
+		    background: #eee;
+		    width: 80px;
+		    height: 80px;
+		    border-radius: 200px;
+		    margin: 30px auto 40px;
+		    border: 60px solid #fff;
+		    text-align: center;
+		    background: none;
+		}
+		.center-color {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    background: #fff;
+		    width: 78px;
+		    height: 78px;
+		    border-radius: 40px;
+		    border: 2px solid #ddd;
+		    background: none;
+		    
+		}
+		.center-color .panel-switches {
+		    width: 70px;
+		    height: 70px;
+		}
+		.steering-wheel-btn {
+		    background: #29cadc;
+		    background: linear-gradient(to top,#29cadc,#2addca);
+		    border-radius: 50%;
+		    width: 70px;
+		    height: 70px;
+		    position: absolute;
+		    left: 4px;
+		    top: 4px;
+		    text-align: center;
+		    color: #fff;
+		    line-height: 70px;
+		    z-index: 999;
+		}
+		.steering-wheel .switch-forward {
+		    position: absolute;
+		    left: 50%;
+		    margin-left: -30px;
+		    top: -55px;
+		}
+
+		.steering-wheel .panel-switches .switches-item a {
+		    display: block;
+		    background: none;
+		    margin: 0;
+		    text-align: center;
+		    width: 60px;
+		    height: 30px;
+		    color: #999;
+		    display: block;
+		    line-height: 30px;
+		    border-radius: 15px;
+		    cursor: default;
+		}
+		.steering-wheel .switches-item .iconfont {
+		    font-size: 30px;
+		}
+		.steering-wheel .panel-switches .switch-desc {
+		    font-size: 14px;
+		}
+
+		.steering-wheel .switch-left {
+		    position: absolute;
+		    left: -59px;
+		    top: 10px;
+		}
+
+
+		.steering-wheel .switch-back {
+		    position: absolute;
+		    left: 50%;
+		    margin-left: -30px;
+		    bottom: -53px;
+		}
+		.steering-wheel .switch-right {
+		    position: absolute;
+		    right: -60px;
+		    top: 12px;
+		}
+		.btnPowerOn {
+			background-image: url('./img/on.png');
+			background-color: #fff;
+			background-position: 14px;
+			background-size: auto 20px;
+			background-repeat: no-repeat
+		}
+
+
+		</style>
+	</head>
+
+	<body>
+		<div class="B_buybox" id="buyPage2" style="display:none">
+			<div class="buy_box">
+				<div class="buy_text2" id="buyInfo">
+					<p class="qlcxTitle2">温馨提示</p>
+					<i class="ljys" style="color:#999999;">有人正在用水，为避免烫伤，50℃以上请关水后再调节。</em></i>
+				</div>
+				<div class="button_buy_div">
+					<button class="button_buy1" type="button" onclick="hideBuyPage2()" id="confirm">我知道了</button>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="warning"></div>
+		<section id="mainPage" class="mainbg">
+			<!--反馈显示框-->
+			<div class="state">
+				<div class="stateSteps">
+					<dl>
+						<dt>工作状态</dt>
+						<dd class="workState">待机中</dd>
+					</dl>
+					<dl>
+						<dt>电量状态</dt>
+						<dd class="batteryState">正常</dd>
+					</dl>
+					<dl>
+						<dt>充电状态</dt>
+						<dd class="chargingState">充电线充电</dd>
+					</dl>
+				</div>
+				<img class="zoyua center" src="img/zy.png" />
+				<img class="yyua center" src="img/yy.png" />
+			</div>
+
+			<p>
+				<div class="powerCard">
+					<div class="power_off mengban_off" style="display:none;"></div>
+					<span class="fl">设备已关闭</span>
+					<input class="btnPower btnPowerOff" name="btnPower" type="button" />
+					<div class="clf"></div>
+				</div>
+				<div class="erro-info hidden">
+				<!-- <div class="erro-info"> -->
+					<img class="erroimg1 erro_off"src="./img/erro.png"/>
+	                <p class="erro-text">扫地机有故障！</p>
+	                <img class="erroimg" src="./img/arrow_gray.png"/>
+	            </div>
+			</p>
+
+			<div class="mengban_box">
+				<div class="error_off mengban_off" style="display:none;"></div>
+
+				<!--<div class="mengban_tempora">-->
+				<div class="modeSet">
+					<p class="modeTitle nameh3">模式设置</p>
+					<div class="mode">
+						<div class="mode_off mengban_off" style="display:none;"></div>
+						<ul class="modeSteps">
+					        <li data-value="0" class="liSteps steps_item off iconfontZD_off"><i class="zd_off zd_on iconfont"></i><em>自动</em></li>
+					        <li data-value="1" class="liSteps steps_item off iconfontZD1_off"><i class="zd1_off zd1_on iconfont"></i><em>重点</em></li>
+					        <li data-value="2" class="liSteps steps_item off iconfontYB_off"><i class="by_off by_on iconfont"></i><em>延边</em></li>
+					        <li data-value="3" class="liSteps steps_item off iconfontHC_off"><i class="hc_off hc_on iconfont"></i><em>回充</em></li>
+					    	<div class="clf"></div>
+					    </ul>
+
+					</div>
+				</div>
+				<div class="modeSet">
+					<p class="modeTitle nameh3">方向控制</p>
+					<div class="mode_off mengban_off" style="display:none;"></div>
+					<div class="control-panel" current-status="off">
+						<div class="up dir-button" button="up" style="left: 135px;"></div>
+						<div class="down dir-button" button="down" style="left: 135px;"></div>
+						<div class="left dir-button" button="left" style="left: 65px;"></div>
+						<div class="right dir-button" button="right" style="left: 205px;"></div>
+						<div class="on dir-button" button="switch" style="left: 135px;"></div>
+					</div>
+				</div>
+				<!-- <div class="J1"></div> -->
+				<script>
+					var width = $('.control-panel').width();
+					$('.up').css({
+						'left': width / 2 - 25
+					});
+					$('.down').css({
+						'left': width / 2 - 25
+					});
+					$('.left').css({
+						'left': width / 2 - 95
+					});
+					$('.right').css({
+						'left': width / 2 + 45
+					});
+					$('.on').css({
+						'left': width / 2 - 25
+					});
+				</script>
+				<div class="modeSet"><!-- efficiency -->
+					<p class="modeTitle nameh3">效率设置</p>
+					<div class="mode">
+						<div class="efficiency_off mengban_off" style="display:none;"></div>
+						<ul class="efficiency">
+					        <li data-value="0" class="liSteps steps_item off iconfontRC_off"><i class="rc_off rc_on iconfont"></i><em>日常</em></li>
+					        <li data-value="3" class="liSteps steps_item off iconfontJY_off"><i class="jy_off jy_on iconfont"></i><em>静音</em></li>
+					        <li data-value="1" class="liSteps steps_item off iconfontQL_off"><i class="ql_off ql_on iconfont"></i><em>强力</em></li>
+					        <li data-value="2" class="liSteps steps_item off iconfontDT_off"><i class="dt_off dt_on iconfont"></i><em>地毯</em></li>
+					    	<div class="clf"></div>
+					    </ul>
+
+					</div>
+				</div>
+
+				<div class="cardinbg qjBox" >
+				  <div class="qjspeed_off mengban_off" style="display:none;"></div>
+				  <p class="modeTitle nameh33">清洁速度</p>
+				  <div class="btnSliderBox qjspeed pattern">
+					<!-- <input class="jpSlider" name="btnSlider" type="range" min="0" max="4"  step="1" /> -->
+		            <div class="patterncon"></div>
+		            <ul>
+		                <li>
+		                   <input id="radio_1" class="radio" name="radio" type="checkbox" checked />
+		                   <label for="radio_1" class="trigger" value="0"><em></em>低速</label>
+		                </li>
+		                <li>
+		                    <input id="" class="radio" name="radio" type="" />
+		                   <label for="" class="trigger" value=""></label>
+		                </li>
+		                <li>
+		                    <input id="" class="radio" name="radio" type="" />
+		                   <label for="" class="trigger" value=""></label>
+		                </li>
+		                <li>
+		                    <input id="" class="radio" name="radio" type="" />
+		                   <label for="" class="trigger" value=""></label>
+		                </li>
+		                <li>
+		                    <input id="radio_2" class="radio" name="radio" type="checkbox" />
+		                   <label for="radio_2" class="trigger" value="1"><em></em>高速</label>
+		                </li>
+		           </ul>
+					<span class="clf"></span>
+				  </div>
+				</div>
+
+
+				<div class="cardinbg qjBox" >
+				  <div class="dmcolor_off mengban_off" style="display:none;"></div>
+				  <p class="modeTitle nameh33">地面颜色</p>
+				  <div class="btnSliderBox dmcolor pattern">
+					<!-- <input class="jpSlider" name="btnSlider" type="range" min="0" max="4"  step="1" /> -->
+		            <div class="patterncon"></div>
+		            <ul>
+		                <li>
+		                   <input id="radio_3" class="radio" name="radio" type="checkbox" checked />
+		                   <label for="radio_3" class="trigger" value="1"><em></em>浅色</label>
+		                </li>
+		                <li>
+		                    <input id="" class="radio" name="radio" type="" />
+		                   <label for="" class="trigger" value=""></label>
+		                </li>
+		                <li>
+		                    <input id="" class="radio" name="radio" type="" />
+		                   <label for="" class="trigger" value=""></label>
+		                </li>
+		                <li>
+		                    <input id="" class="radio" name="radio" type="" />
+		                   <label for="" class="trigger" value=""></label>
+		                </li>
+		                <li>
+		                    <input id="radio_4" class="radio" name="radio" type="checkbox" />
+		                   <label for="radio_4" class="trigger" value="0"><em></em>深色</label>
+		                </li>
+		           </ul>
+					<span class="clf"></span>
+				  </div>
+				</div>
+
+				<div class="cardinbg">
+					<div class="tjxcolor_off mengban_off" style="display:none;"></div>
+					<p class="modeTitle nameh33">踢脚线颜色</p>
+					<div class="btnSliderBox tjxcolor pattern">
+					<!-- <input class="tsSlider" name="btnSlider" type="range" min="0" max="4"  step="1" /> -->
+					<div class="patterncon"></div>
+					<ul>
+					    <li>
+					       <input id="radio_5" class="radio" name="radio" type="checkbox" checked />
+					       <label for="radio_5" class="trigger btnSliderM" value="0"><em></em>浅色</label>
+					    </li>
+					     <li>
+					        <input id="" class="radio" name="radio" type="checkbox"/>
+					       <label for="" class="trigger btnSliderM"></label>
+					    </li>
+					    <li>
+					        <input id="" class="radio" name="radio" type="checkbox"/>
+					       <label for="" class="trigger btnSliderM"></label>
+					    </li>
+					     <li>
+					        <input id="" class="radio" name="radio" type="checkbox"/>
+					       <label for="" class="trigger btnSliderM" ></label>
+					    </li>
+					    <li>
+					        <input id="radio_6" class="radio" name="radio" type="checkbox" />
+					       <label for="radio_6" class="trigger btnSliderM" value="1"><em></em>深色</label>
+					    </li>
+					</ul>
+					<span class="clf"></span>
+					</div>
+				</div>
+				<div class="cardinbg">
+					<div class="qcarea_off mengban_off" style="display:none;"></div>
+					<p class="modeTitle nameh33">清扫面积</p>
+					<div class="btnSliderBox qcarea pattern">
+					<!-- <input class="tsSlider" name="btnSlider" type="range" min="0" max="4"  step="1" /> -->
+					<div class="patterncon"></div>
+					<ul>
+					    <li>
+					       <input id="radio_7" class="radio" name="radio" type="checkbox" checked />
+					       <label for="radio_7" class="trigger btnSliderM" value="0"><em></em>50m³</label>
+					    </li>
+					     <li>
+					        <input id="" class="radio" name="radio" type="checkbox"/>
+					       <label for="" class="trigger btnSliderM"></label>
+					    </li>
+					    <li>
+					        <input id="radio_8" class="radio" name="radio" type="checkbox"/>
+					        <label for="radio_8" class="trigger btnSliderM" value="1"><em></em>100m³</label>
+					    </li>
+					     <li>
+					        <input id="" class="radio" name="radio" type="checkbox"/>
+					       <label for="" class="trigger btnSliderM" ></label>
+					    </li>
+					    <li>
+					        <input id="radio_9" class="radio" name="radio" type="checkbox" />
+					       <label for="radio_9" class="trigger btnSliderM" value="2"><em></em>>100m³</label>
+					    </li>
+					</ul>
+					<span class="clf"></span>
+					</div>
+				</div>
+				<div class="cardbg">
+					<div class="fripower_off mengban_off" style="display:none;"></div>
+					<span class="nameh3">语音播报</span>
+					<div class="funcbtn">
+						<p class="funcbtnP off" value="btn_fripower" id="btn_fripower"><span></span></p>
+					</div>
+				</div>
+				<div class="btnTimeSet cardbg">
+			        <div class="savewater_off mengban_off" style="display:none;"></div>
+			        <span class="nameh3">定时设置</span>
+			        <div class="btnLink setTimeLink">设置</div>
+			    </div>
+				<div class="linksRights center">
+					<a href="#">海尔集团</a> ·
+					<a href="#">意见反馈</a> ·
+					<a href="#">使用帮助</a>
+				</div>
+
+		</section>
+
+		<!-- 蒙版：设备是否在线 -->
+		</div>
+		<!--<div class="mengban_off_setTime" style="display:none"></div>-->
+		<div class="mengban"></div>
+		<!--加载动画-->
+		<div class="loader" style="display:none">
+			<div class=" ball-beat">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var setTimeListUrl = './setTimeList.html';
+			var setTempUrl = './setTemp.html';
+			$(document).ready(function() {
+				if (/android/i.test(navigator.userAgent)) {
+					//适配android
+					$(".return").css("top", "16px")
+					$("#head").attr("class", "andr");
+				}
+				if (/ipad|iphone|mac/i.test(navigator.userAgent)) {
+					// 适配ios
+				}
+			});
+			var JDfunc = {
+				feedID: null,
+				deviceID: null,
+				devicestate: 0, //设备在线状态
+				lock: true, //当向云端上报状态过程中，值为false，将页面状态刷新锁起来。
+				propMap: {}, //参数
+				erlock: {
+					e1: true,
+					e2: true,
+					e3: true,
+					e4: true,
+					e5: true,
+					e6: true,
+					e7: true,
+					e8: true,
+					e9: true,
+					e10: true,
+					e11: true
+				},
+				domMengban: {
+					power_off: $(".power_off"), //未用
+					error_off: $(".error_off"),
+					qcarea_off: $(".qcarea_off"),
+					mengban_off: $(".mengban_off"),
+					ChildLock_off:$(".ChildLock_off"),
+					efficiency_off:$(".efficiency_off"),
+					fritemp_off:$(".fritemp_off"),
+					iconfontJY_off:$(".iconfontJY_off"),
+					iconfontJR_off:$(".iconfontJR_off"),
+					iconfontQL_off:$(".iconfontQL_off"),
+					iconfontDT_off:$(".iconfontDT_off"),
+					qjspeed_off:$(".qjspeed_off"),
+					dmcolor_off:$(".dmcolor_off"),
+					tjxcolor_off:$(".tjxcolor_off"),
+					qcarea_off:$(".qcarea_off"),
+					iconfontDT_off:$(".iconfontDT_off"),
+					qjspeed_off:$(".qjspeed_off"),
+					fripower_off: $(".fripower_off"),
+					savewater_off: $(".savewater_off"),
+					mode_off:$(".mode_off"),
+				},
+				toast: function(str) { //toast 报错
+					JDSMART.app.toast({
+						"message": str
+					}, null);
+				},
+				view_wait: function() { //交互等待动画显示/隐藏
+					$('.loader').show();
+				},
+				hide_wait: function() {
+					$('.loader').hide();
+				},
+				controlDevice: function(command, callback, callerror) { //控制设备指令
+					// this.view_wait();
+					var _this = this;
+					JDSMART.io.controlDevice( // 控制设备接口: 如开关
+						command,
+						function(suc) {
+							if (callback)
+								callback(suc);
+						},
+						function(errors) {
+							_this.toast(errors.errorInfo);
+						}
+					);
+				},
+				showButton: function(flag) { //头部显示隐藏设定
+					JDSMART.app.config( //配置导航按钮隐藏显示
+						{
+							showBack: flag, // 返回按钮，false是隐藏，true是显示
+							showShare: flag,
+							showMore: flag, // 更多按钮
+							color: "#293747"
+						});
+				},
+				deviceState: function(devicestate) { //设备在线状态判断
+					//设备在线状态 status=0 ：不在线 1：在线
+					if (devicestate) {
+						// status = suc.device.status;
+						status = devicestate;
+						if (status == 0) {
+							JDSMART.app.config({
+								showBack: true,
+								showShare: true,
+								showMore: true,
+								showOnline: true
+							});
+							$(".mengban").show();
+						} else {
+							JDSMART.app.config({
+								showBack: true,
+								showShare: true,
+								showMore: true,
+								showOnline: false
+							});
+							$(".mengban").hide();
+						}
+					}
+				},
+				parseStreamValue: function(streams) { //将stream_id对应的值放入propMap里面
+					var _this = this;
+					$.each(streams, function(i, val) {
+						_this.propMap[val['stream_id']] = val['current_value'];
+						// console.log("stream_id" + val['stream_id'] + " value" + val['current_value']);
+					});
+					_this.renderView();
+				},
+				init: function(){
+					// JDExt.init(this, '#0475d4');
+					JDExt.init(this, '#4d5c63');
+				},
+				//接收指令，状态改变
+				renderView: function() { //初始化
+					// TODO : ---> don't know the stream id of --> this.nextAppointment = streams
+					var errors = parseInt(this.propMap.ErrorCode);
+					var power = parseInt(this.propMap.OnOff_PowerOn);
+					//this.toast("render");
+					//状态显示区
+					var workMode = parseInt(this.propMap.WorkMode);
+					var powerMode = parseInt(this.propMap.PowerMode);
+					var workStatus = parseInt(this.propMap.WorkStatus);
+					var onOffStart = parseInt(this.propMap.OnOff_Start);
+					var statusBattery = parseInt(this.propMap.Status_Battery);
+					var statusCharging = parseInt(this.propMap.Status_Charging);
+					var alarmClockPowerOn = parseInt(this.propMap.AlarmClock_PowerOn);
+					var onOffDirectionForward = parseInt(this.propMap.OnOff_Direction_Forward);
+					var onOffDirectionBackward = parseInt(this.propMap.OnOff_Direction_Backward);
+					var onOffDirectionLeft = parseInt(this.propMap.OnOff_Direction_Left);
+					var onOffDirectionRight = parseInt(this.propMap.OnOff_Direction_Right);
+					var cleaningArea = parseInt(this.propMap.CleaningArea);
+					var onOffMute = parseInt(this.propMap.OnOff_Mute);
+					var dropDetect = parseInt(this.propMap.DropDetect);
+					var boundaryDetect = parseInt(this.propMap.BoundaryDetect);
+					var cleaningSpeed = parseInt(this.propMap.CleaningSpeed);
+
+					if (JDfunc.lock) {
+						//alert("刷新  setflowState"+flowState);
+						this.renderPowerStatus(power);
+						this.setworkMode(workMode);
+						this.setpowerMode(powerMode);
+						this.setworkStatus(workStatus);
+						this.setonOffStart(onOffStart);
+						this.setstatusBattery(statusBattery);
+						this.setstatusCharging(statusCharging);
+						this.setalarmClockPowerOn(alarmClockPowerOn);
+						this.setonOffDirectionForward(onOffDirectionForward);
+						this.setonOffDirectionBackward(onOffDirectionBackward);
+						this.setonOffDirectionLeft(onOffDirectionLeft);
+						this.setonOffDirectionRight(onOffDirectionRight);
+						this.setcleaningArea(cleaningArea);
+
+						this.setonOffMute(onOffMute);//
+						this.setdropDetect(dropDetect);
+						this.setboundaryDetect(boundaryDetect);
+						this.setcleaningSpeed(cleaningSpeed);
+
+						this.funcbtnPEx($("[value='btn_fripower']"),onOffMute);
+						// alert("刷新");
+					}
+					//故障
+					//E1 E2 不能进入智能、节能、速冻模式、速冷模式，冷藏室温度不可调节
+					//E3 不能进入智能、节能、速冻模式、速冷模式
+					if (errors) {
+						this.setErrors(errors);
+						this.domMengban.error_off.show();
+						this.domMengban.mode_off.show();
+					}else if(errors == 1 || errors == 2){
+						this.setErrors(errors);
+						this.domMengban.mode_off.show();
+					}
+
+					// if(workStatus == 1){
+					// 	// this.domMengban.qjspeed_off.show();
+					// 	// this.domMengban.dmcolor_off.show();
+					// 	this.domMengban.qcarea_off.show();
+					// }
+					// if(workMode == 1 || workMode == 0 || workMode == 2 || workMode == 3 || onOffDirectionLeft == 1 || onOffDirectionRight == 1 || onOffDirectionForward == 1 || onOffDirectionBackward == 1){
+					// if(){
+					// 	this.domMengban.savewater_off.show();
+					// }
+				},
+
+
+				funcbtnPEx: function(domBtn,btnvalue){  //对于click滑动类funcbtnP，仅有2参数0，1
+					var dombtn = domBtn;
+					if( 1==btnvalue ){
+						dombtn.addClass("on");
+						dombtn.removeClass("off");
+						if( dombtn.attr("value")=="btn_time" ){
+				            $(".timeSet").css("opacity","0.4");
+					    }
+					}else{
+						dombtn.addClass("off");
+						dombtn.removeClass("on");
+						if( dombtn.attr("value")=="btn_time" ){
+				            $(".timeSet").css("opacity","1");
+					    }
+					}
+				},
+				renderPowerStatus: function(power) { //开关
+					var btnPower = $(".powerCard span");
+					var btnPowerIcon = $(".btnPower");
+					// var power = 1;
+//					console.log("renderPowerStatus: " + power + " " + typeof power);
+					if (0 == power) {
+						btnPower.removeClass("themeColor");
+						btnPower.text("设备已关闭");
+						btnPowerIcon.removeClass("btnPowerOn");
+						btnPowerIcon.addClass("btnPowerOff");
+						this.domMengban.error_off.show();
+						this.hintlock = true;
+						// return false;
+						$(".hintBox").hide();
+					} else if (1 == power) {
+						btnPower.addClass("themeColor");
+						btnPower.text("设备已开启");
+						btnPowerIcon.addClass("btnPowerOn");
+						btnPowerIcon.removeClass("btnPowerOff");
+						console.log("renderPowerStatus: " + power + " " + typeof power);
+						this.domMengban.error_off.hide();
+						// return true;
+					}
+				},
+				setErrors: function(errors) {
+					//	alert("befor");
+					// var str = null;
+						// console.log(erlock.e1);
+					//	alert(erlock.e1);
+					if (errors == 0) {
+						$('.erro-info').addClass('hidden');
+						$('.powerCard').css('display','block');
+					} else if (errors == 1 && this.erlock.e1) {
+						showBuyrPage2();
+						//errorCode.push(errors);
+						$('.ljys').text('地检失效');
+						this.erlock.e1 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 2 && this.erlock.e2) {
+						showBuyrPage2();
+						$('.ljys').text('吸尘口被堵');
+						this.erlock.e2 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					}	 else if (errors == 3 && this.erlock.e3) {
+						showBuyrPage2();
+						$('.ljys').text('左右轮故障');
+						this.erlock.e3 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 4 && this.erlock.e4) {
+						showBuyrPage2();
+						$('.ljys').text('左右边扫故障');
+						this.erlock.e4 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 5 && this.erlock.e5) {
+						showBuyrPage2();
+						$('.ljys').text('左右轮离地');
+						this.erlock.e5 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 6 && this.erlock.e6) {
+						showBuyrPage2();
+						$('.ljys').text('中扫故障');
+						this.erlock.e6 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 7 && this.erlock.e7) {
+						showBuyrPage2();
+						$('.ljys').text('主机上盖没有盖好');
+						this.erlock.e7 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 8 && this.erlock.e8) {
+						showBuyrPage2();
+						$('.ljys').text('灰尘盒没有放到位');
+						this.erlock.e8 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 9 && this.erlock.e9) {
+						showBuyrPage2();
+						$('.ljys').text('电池电量不足');
+						this.erlock.e9 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					} else if (errors == 10 && this.erlock.e10) {
+						showBuyrPage2();
+						$('.ljys').text('主机不能充电');
+						this.erlock.e10 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					}else if (errors == 11 && this.erlock.e11) {
+						showBuyrPage2();
+						$('.ljys').text('墙捡故障 ');
+						this.erlock.e11 = false;
+						$('.erro-info').removeClass('hidden');
+						$('.powerCard').css('display','none');
+					}
+				},
+				setworkMode: function(workMode){   //模式 modeSteps
+					var liSteps = $(".modeSteps .liSteps");
+					// var workMode = 1;
+					liSteps.addClass("off");
+					liSteps.removeClass("on");
+					if(workMode<=4){
+						liSteps.eq(workMode).addClass("on");
+						liSteps.eq(workMode).removeClass("off")
+					}
+				},
+				// 效力设置
+				// WorkMode
+				setpowerMode: function(powerMode){
+					var liSteps = $(".efficiency .liSteps");
+					// var powerMode = 1;
+					liSteps.addClass("off");
+					liSteps.removeClass("on");
+					// if(powerMode<=4){
+					// 	liSteps.eq(powerMode).addClass("on");
+					// 	liSteps.eq(powerMode).removeClass("off");
+					// }
+					if(powerMode == 0){//日常
+						liSteps.eq(0).addClass("on");
+						liSteps.eq(0).removeClass("off");
+					}
+					if(powerMode == 3){//静音
+						liSteps.eq(1).addClass("on");
+						liSteps.eq(1).removeClass("off");
+					}
+					if(powerMode == 1){//强力
+						liSteps.eq(2).addClass("on");
+						liSteps.eq(2).removeClass("off");
+					}
+					if(powerMode == 2){//地毯
+						liSteps.eq(3).addClass("on");
+						liSteps.eq(3).removeClass("off");
+					}
+				},
+				setworkStatus: function(value){
+					console.log("工作状态："+value);
+					var workState = $(".workState");
+					if(value == '0'){
+						workState.text("休眠");
+					}else if(value == '1'){
+						workState.text("待机");
+					}else if(value == '2'){
+						workState.text("工作中");
+					}
+				},
+				setstatusBattery: function(value){
+					console.log("电量："+value);					
+					var batteryState = $(".batteryState");
+					if(value == '0'){
+						batteryState.text("没电");
+					}else if(value == '1'){
+						batteryState.text("正常");
+					}else if(value == '2'){
+						batteryState.text("满电");
+					}
+				},
+				setstatusCharging: function(value){
+					console.log("充电状态："+value);
+					var chargingState = $(".chargingState");
+					if(value == '0'){
+						chargingState.text("未充电");
+					}else if(value == '1'){
+						chargingState.text("充电桩充电");
+					}else if(value == '2'){
+						chargingState.text("充电线充电");
+					}
+				},
+
+				setalarmClockPowerOn: function(){},
+				//暂停
+				setonOffStart: function(onOffStart){
+					var control = $(".control-panel");
+					var onOffDirectionRight = parseInt(this.propMap.OnOff_Direction_Right);
+					var onOffDirectionLeft = parseInt(this.propMap.OnOff_Direction_Left);
+					var onOffDirectionForward = parseInt(this.propMap.OnOff_Direction_Forward);
+					var onOffDirectionBackward = parseInt(this.propMap.OnOff_Direction_Backward);
+					
+					switch(onOffStart){
+								
+						case 0:
+							control.css({
+								"background-position-y":"-969px",
+								"background-position-x":"50%"
+							});
+							break;
+						case 1:
+							if(onOffDirectionRight == 1){
+								control.css({
+									"background-position-y":"-776px",
+									"background-position-x":"50%"
+								});
+							}else
+							if(onOffDirectionLeft == 1){
+								// alert("左")
+								// control.css("background-position-y","-582px");
+								control.css({
+									"background-position-y":"-582px",
+									"background-position-x":"50%"
+								});
+							}else
+							if(onOffDirectionBackward == 1){
+								// alert("后")
+								// control.css("background-position-y","-388px");
+								control.css({
+									"background-position-y":"-388px",
+									"background-position-x":"50%"
+								});
+							 }else
+							if(onOffDirectionForward == 1){
+								// alert("前")
+								control.css("background-position-y","-192px");
+							}
+							else{
+								control.css("background-position-y","0px");
+							}
+							break;
+						default:
+							control.css("background-position-y","0px");
+							break;
+					}
+
+					// var onOffStart="0";
+					// if(onOffStart == "0"){
+					// 	alert("暂停");
+					// 	// control.css("background-position-y","-969px");
+					// 	 control.css({
+					// 		"background-position-y":"-969px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else
+					// if(onOffDirectionRight == "1"){
+					// 	control.css({
+					// 		"background-position-y":"-776px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else
+					// if(onOffDirectionLeft == "1"){
+					// 	// alert("左")
+					// 	// control.css("background-position-y","-582px");
+					// 	control.css({
+					// 		"background-position-y":"-582px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else
+					// if(onOffDirectionBackward == "1"){
+					// 	// alert("后")
+					// 	// control.css("background-position-y","-388px");
+					// 	control.css({
+					// 		"background-position-y":"-388px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else
+					// if(onOffDirectionForward == "1"){
+					// 	// alert("前")
+					// 	control.css("background-position-y","-192px");
+					// }else if(onOffStart == "1"){
+					// 	control.css("background-position-y","0px");
+					// 	// alert("暂停1");
+					// }else if(onOffDirectionForward = "0"){
+					// 	control.css("background-position-y","0px");
+					// }else if(onOffDirectionRight = "0"){
+					// 	control.css("background-position-y","0px");
+					// }else if( onOffDirectionLeft = "0"){
+					// 	control.css("background-position-y","0px");
+					// }else if(  onOffDirectionBackward = "0"){
+					// 	control.css("background-position-y","0px");
+					// }
+				},
+				//前
+				setonOffDirectionForward: function(){
+					
+					// // var control = $(".control-panel");
+					// if(onOffDirectionForward == "1"){
+					// 	// alert("前")
+					// 	control.css("background-position-y","-192px");
+						// $(".control-panel").css({
+						// 	"background-position-y":"-192px",
+						// 	"background-position-x":"50%"
+						// });
+					// }else if(onOffDirectionForward == "0"){
+					// // 	$(".control-panel").css("background-position-y","0px");
+					// 		// alert("前1")
+					// }
+				
+					// console.log("onOffDirectionForward=====<");
+					// console.log(onOffDirectionForward);
+					// console.log("onOffDirectionForward=====>");
+				},
+				//后
+				setonOffDirectionBackward: function(){
+					
+					// // var control = $(".control-panel");
+					// 	// control.css("background","url(./../img/OnOff_Direction.png) no-repeat 50% -388px;");
+					// if(onOffDirectionBackward == "1"){
+					// 	// alert("后")
+					// 	// control.css("background-position-y","-388px");
+					// 	$(".control-panel").css({
+					// 		"background-position-y":"-388px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else if(onOffDirectionBackward == "0"){
+					// 	// $(".control-panel").css("background-position-y","0px");
+					// 	// control.css("background","url(./../img/OnOff_Direction.png) no-repeat 50% 0px;");
+					// 	// alert("后1")
+					// }
+
+					// // window.setTimeout(function(){
+					// // 	$(".control-panel").css("background-position-y","0px");
+					// // 	// control.css("background","url(./../img/OnOff_Direction.png) no-repeat 50% 0px;");
+					// // },500);
+					
+					// console.log("onOffDirectionBackward=====<");
+					// console.log(onOffDirectionBackward);
+					// console.log("onOffDirectionBackward=====>");
+				},
+				//左
+				setonOffDirectionLeft: function(){
+					
+					// // $(".control-panel").css("background-position-y","-582px");
+					// console.log(typeof(onOffDirectionLeft));
+					// // var control = $(".control-panel");
+					// if(onOffDirectionLeft == "1"){
+					// 	// alert("左")
+					// 	// control.css("background-position-y","-582px");
+					// 	$(".control-panel").css({
+					// 		"background-position-y":"-582px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else if(onOffDirectionLeft == "0"){
+					// 	// $(".control-panel").css("background-position-y","0px");
+					// 	// alert("左1")
+					// }
+
+					// // window.setTimeout(function(){
+					// // 	$(".control-panel").css("background-position-y","0px");
+					// // },500);
+					
+					// console.log("onOffDirectionLeft=====<");
+					// console.log(onOffDirectionLeft);
+					// console.log("onOffDirectionLeft=====>");
+				},
+				//右
+				setonOffDirectionRight: function(){
+					// $(".control-panel").css("background-position","-776px");
+					// console.log("onOffDirectionRight======《");
+					// console.log(typeof(onOffDirectionRight));
+					// console.log("onOffDirectionRight======》");
+					// // var control = $(".control-panel");
+					// if(onOffDirectionRight == "1"){
+					// 	$(".control-panel").css({
+					// 		"background-position-y":"-776px",
+					// 		"background-position-x":"50%"
+					// 	});
+					// }else if(onOffDirectionRight == "0"){
+					// 	// $(".control-panel").css("background-position-y","0px");
+					// }
+
+					// window.setTimeout(function(){
+					// 	$(".control-panel").css("background-position-y","0px");
+					// },500);
+					// console.log("onOffDirectionLeft=====<");
+					// console.log(onOffDirectionRight);
+					// console.log("onOffDirectionLeft=====>");
+				},
+				setonOffMute: function(){},
+
+
+
+				// 清洁速度
+				setcleaningSpeed: function(cleaningSpeed){    //清洁速度
+					var qjinli = $(".qjspeed li");
+					var list = 0;
+					// var cleaningSpeed = 1;
+					var qjspeedIf = (!cleaningSpeed) || (cleaningSpeed<0) || ((0!=cleaningSpeed) && (1!=cleaningSpeed));
+					if( qjspeedIf ){
+						cleaningSpeed = 0;
+					}else if(cleaningSpeed>1){
+						cleaningSpeed = 1;
+					}
+					$(".qjspeed li input").prop("checked",false);
+					switch(cleaningSpeed){
+						case 0:
+							list = 0;
+							break;
+						case 1:
+							list = 4;
+							break;
+						default:
+							//nothing
+							break;
+					}
+					if( (cleaningSpeed>=0) && (cleaningSpeed<=1) ){
+						qjinli.eq(list).children().first().prop("checked",true);
+					}
+				},
+				// 地面颜色 dmcolor
+				setdropDetect: function(dropDetect){
+					var dminli = $(".dmcolor li");
+					var list = 0;
+					// var dropDetect = 1;
+					var dmcolorIf = (!dropDetect) || (dropDetect<0) || ((0!=dropDetect) && (1!=dropDetect));
+					if( dmcolorIf ){
+						dropDetect = 0;
+					}else if(dropDetect>1){
+						dropDetect = 1;
+					}
+					$(".dmcolor li input").prop("checked",false);
+					switch(dropDetect){
+						case 1:
+							list = 0;
+							break;
+						case 0:
+							list = 4;
+							break;
+						default:
+							//nothing
+							break;
+					}
+					if( (dropDetect>=0) && (dropDetect<=1) ){
+						dminli.eq(list).children().first().prop("checked",true);
+					}
+				},
+				//踢脚颜色
+				setboundaryDetect: function(boundaryDetect){
+					// tjxcolor
+					var tjinli = $(".tjxcolor li");
+					var list = 0;
+					// var boundaryDetect = 1;
+					// var tjxcolorIf = (!boundaryDetect) || (boundaryDetect<0) || ((0!=boundaryDetect) && (1!=boundaryDetect));
+					// if( tjxcolorIf ){
+					// 	boundaryDetect = 0;
+					// }else if(boundaryDetect>1){
+					// 	boundaryDetect = 1;
+					// }
+					$(".tjxcolor li input").prop("checked",false);
+					switch(boundaryDetect){
+						case 0:
+							list = 0;
+							break;
+						case 1:
+							list = 4;
+							break;
+						default:
+							//nothing
+							break;
+					}
+					if( (boundaryDetect>=0) && (boundaryDetect<=1) ){
+						tjinli.eq(list).children().first().prop("checked",true);
+					}
+				},
+				//清扫面积
+				setcleaningArea: function(cleaningArea){
+					var qcinli = $(".qcarea li");
+					var list = 0;
+					var qcareaIf = (!cleaningArea) || (cleaningArea<0) || ((0!=cleaningArea) && (1!=cleaningArea) && (2!=cleaningArea));
+					if( qcareaIf ){
+						cleaningArea = 0;
+					}else if(cleaningArea>2){
+						cleaningArea = 2;
+					}
+					$(".qcarea li input").prop("checked",false);
+					switch(cleaningArea){
+						case 0:
+							list = 0;
+							break;
+						case 1:
+							list = 2;
+							break;
+						case 2:
+							list = 4;
+							break;
+						default:
+							//nothing
+							break;
+					}
+					if( (cleaningArea>=0) && (cleaningArea<=2) ){
+						qcinli.eq(list).children().first().prop("checked",true);
+					}
+				},
+
+				bindEvents: function() { //发指令//绑定事件，对于Dom元素做事件处理
+					var _this = this;
+					//开关   未用
+					var powerCard = $(".btnPower");
+					powerCard.on("click", function() {
+						// var errors = parseInt(_this.propMap.ErrorCode);
+						_this.lock = false;
+						if ($(this).hasClass("btnPowerOn")) {
+							//						alert()
+							_this.turnOff();
+						} else if ($(this).hasClass("btnPowerOff")) {
+							_this.turnOn();
+						}
+						_this.view_wait();
+					});
+
+					//功能开关2：语音
+					$(".funcbtn").on("click",function(e){
+						_this.lock = false;
+					    var funcbtnlock = "";
+					    var value = 0;
+					    var workMode = parseInt(_this.propMap.WorkMode);
+					    // if( $(this).find(".funcbtnP").attr("value")=="btn_ChildLock" ){
+					    //     funcbtnlock = "OnOff_ChildLock";
+					    // }else
+					    if( $(this).find(".funcbtnP").attr("value")=="btn_fripower" ){
+				        	funcbtnlock = "OnOff_Mute";
+						}
+					    if( $(this).find(".funcbtnP").hasClass("on") ){
+					    	value = 0;
+					    }else{
+					    	value = 1;
+					    }
+						_this.view_wait();
+					    _this.setFuncbtn(funcbtnlock,value);
+					});
+					//进入定时页面链接
+					$(".setTimeLink").click(function(){
+						window.location.href = setTimeListUrl+"?feedid="+_this.feedID;
+
+					});
+					//进入
+					$(".setTempLink").click(function(){
+						window.location.href = setTempUrl+"?feedid="+_this.feedID;
+					});
+					// // 模式
+					var liSteps = $(".modeSteps .liSteps");
+					liSteps.on("click",function(){
+						_this.lock = false;
+						liSteps.removeClass("on");
+						liSteps.addClass("off");
+						var curvalue = $(this).attr("data-value");
+						// console.log("curvalue: "+curvalue);
+						_this.setMode(curvalue);
+						_this.view_wait();
+					});
+
+					// // 效力设置
+					var liSteps = $(".efficiency .liSteps");
+					liSteps.on("click",function(){
+						_this.lock = false;
+						liSteps.removeClass("on");
+						liSteps.addClass("off");
+						var curvalue = $(this).attr("data-value");
+						// console.log("curvalue: "+curvalue);
+						_this.setPmode(curvalue);
+						_this.view_wait();
+					});
+					//滑动条
+					$(".pattern .trigger").on("click",function(){
+						_this.lock = false;
+						// $(this).parent().parent().parent().prev().prev().text($(this).attr("value"));
+						var sliderCat = $(this).parent().parent().parent();
+						var curvalue = $(this).attr("value");
+						if(typeof curvalue == "undefined")return;
+						console.log("curvalue==="+typeof curvalue);
+						// alert("curvalue==="+sliderCat);
+						_this.view_wait();
+
+						if(sliderCat.hasClass("qjspeed")){
+							$(".qjspeed li input").prop("checked",false);
+							_this.setSlider("CleaningSpeed",curvalue);
+						}else if(sliderCat.hasClass("dmcolor")){
+							$(".dmcolor li input").prop("checked",false);
+							_this.setSlider("DropDetect",curvalue);
+						}else if(sliderCat.hasClass("tjxcolor")){
+							$(".tjxcolor li input").prop("checked",false);
+							_this.setSlider("BoundaryDetect",curvalue);
+						}else if(sliderCat.hasClass("qcarea")){
+							$(".qcarea li input").prop("checked",false);
+							_this.setSlider("CleaningArea",curvalue);
+						}
+					});
+					//方向盘
+					$(".dir-button").on("click",function(){
+					// $('.dir-button').on('touchend', function(e) {
+						var direction = '';
+						var _this = this;
+						var buttonType = $(this).attr("button"); // 获取当前按钮的类型：up/right/down/left/switch
+						var targetValue = 1; // 目标值，用于发送给服务器，默认为1
+
+						console.log(buttonType);
+
+						switch (buttonType) {
+							case 'up':
+								direction = 'OnOff_Direction_Forward';
+								$('.control-panel').addClass('up');
+								break;
+							case 'down':
+								direction = 'OnOff_Direction_Backward';
+								$('.control-panel').addClass('down');
+								break;
+							case 'left':
+								direction = 'OnOff_Direction_Left';
+								$('.control-panel').addClass('left');
+								break;
+							case 'right':
+								direction = 'OnOff_Direction_Right';
+								$('.control-panel').addClass('right');
+								break;
+							case 'switch':
+								direction = 'OnOff_Start';
+								var controlPanel = $('.control-panel');
+								if (controlPanel.attr("current-status") === "off") {
+									controlPanel.addClass('on');
+									targetValue = 1;
+									controlPanel.attr("current-status", "on");
+								} else {
+									controlPanel.removeClass('on');
+									targetValue = 0;
+									controlPanel.attr("current-status", "off");
+								}
+								break;
+							default:
+								break;
+						}
+						// /*
+						// console.log("direction=====<");
+						// console.log(direction);
+						// console.log("direction=====>");
+						// */
+
+						// // JDExt.issueAsyncCommand({
+						// // 	'stream_id': direction,
+						// // 	'current_value': targetValue
+						// // })
+						JDfunc.setSlider(direction,targetValue);
+					});
+					// 	$(this).get(0).addEventListener('touchend', function() {
+					// 		// if ($.inArray(JDExt.propMap.state.value, ['5', '6', '9']) < 0) {
+					// 		if ($.inArray(JDExt.propMap.status.value, ['1', '2','3']) < 0) {
+					// 			var _this = this;
+					// 			$('.control-panel').removeClass('up down left right');
+					// 			JDExt.issueAsyncCommand({
+					// 				'stream_id': 'direction',
+					// 				'current_value': 0
+					// 			});
+					// 		}
+					// 	});
+					// });
+
+
+
+
+					},
+
+					setMode: function(curvalue){        //模式设置
+						var _this = this;
+						var command = {
+				    		"command":[{
+								'stream_id': "WorkMode",
+								'current_value': curvalue
+							}]
+				    	};
+						_this.controlDevice(command,function(suc) {
+							_this.lock = true;
+				            _this.getInfo();
+				        });
+					},
+
+					setPmode: function(curvalue){        //效力设置
+						var _this = this;
+						var command = {
+				    		"command":[{
+								'stream_id': "PowerMode",
+								'current_value': curvalue
+							}]
+				    	};
+						_this.controlDevice(command,function(suc) {
+							_this.lock = true;
+				            _this.getInfo();
+				        });
+					},
+					setFuncbtn: function(itemname,value){   //儿童锁、冷藏室开关
+						var _this = this
+						var command = {
+				    		"command":[{
+								'stream_id': itemname,
+								'current_value': value
+							}]
+				    	};
+						_this.controlDevice(command,function(suc) {
+							_this.lock = true;
+				            _this.getInfo();
+				        });
+					},
+
+					setSlider: function(itemname,curvalue){
+						var _this = this;
+						var command = {
+				    		"command":[{
+								'stream_id': itemname,
+								'current_value': curvalue
+							}]
+				    	};
+						_this.controlDevice(command,function(suc) {
+							_this.lock = true;
+				            _this.getInfo();
+				        });
+					},
+
+				getInitData: function() { //设备初始化
+					//确认将弹出窗口关闭（报错）
+					// console.log("getInitData  ----进====")
+					function hideBuyPage2() {
+						$("#buyPage2").hide();
+						$("#mengban1").hide();
+					}
+					var _this = this;
+					JDSMART.io.initDeviceData(function(suc) {
+						if (typeof(suc) == "string") {
+							suc = JSON.parse(suc);
+						}
+						console.log("suc-------->")
+						console.log(suc)
+						console.log("suc--------<")
+						// _this.parseStreamValue(suc.streams);
+						_this.getInfo();
+						//设备在线状态
+						_this.devicestate = suc.device.status;
+						_this.deviceState(_this.devicestate);
+						//设备名称
+						if (suc.device.device_name) {
+							$(".tit_product").html(suc.device.device_name);
+						}
+						//缓存feedid
+						// console.log("feedID++++++++++"+suc.device.feed_id)
+						if (suc.device.feed_id) {
+							_this.feedID = suc.device.feed_id;
+							// console.log("getInitData——————》feedID: "+_this.feedID);
+						}
+						_this.hide_wait();
+					});
+				},
+				getInfo: function() { //获取快照
+					var _this = this;
+					JDSMART.io.getSnapshot(
+						function(suc) {
+							if (typeof(suc) == "string") {
+								suc = JSON.parse(suc);
+							}
+							_this.parseStreamValue(suc.streams);
+							// $(".consoleBox").html("getInfo ok");
+							_this.hide_wait();
+							_this.devicestate = suc.status; //真实设备
+							// _this.devicestate = suc.device.status;     // 测试
+							_this.deviceState(_this.devicestate);
+							console.log("reflashData");
+						},
+						function(errors) {
+							// 执行失败的回调
+							toast(errors.errorInfo);
+						}
+					);
+				},
+				turnOn: function() { //开关开启
+					var _this = this;
+					var command = {
+							"command": [{
+							'stream_id': 'OnOff_PowerOn',
+							'current_value': '1'
+						}]
+					};
+					// alert("开关:1");
+					_this.controlDevice(command, function(suc) {
+						_this.lock = true;
+						_this.getInfo();
+					});
+				},
+				//开关开启关闭
+				turnOff: function() {
+					var _this = this;
+					var command = {
+						"command": [{
+							'stream_id': 'OnOff_PowerOn',
+							'current_value': '0'
+						}]
+					};
+
+					// alert("开关:0");
+					_this.controlDevice(command, function(suc) {
+						_this.lock = true;
+						_this.getInfo();
+					});
+				}
+			};
+			//app进入初始化
+			JDSMART.ready(function() {
+				JDfunc.showButton(true);
+				JDfunc.getInitData();
+				setInterval(function() {
+					JDfunc.getInfo();
+				}, 4000);
+				JDfunc.bindEvents();
+			});
+			//弹出提示窗口（报错）
+			function showBuyrPage2() {
+				$("#buyPage2").show();
+				$("#mengban1").show();
+			}
+			//确认将弹出窗口关闭（报错）
+			function hideBuyPage2() {
+				$("#buyPage2").hide();
+				$("#mengban1").hide();
+			}
+		</script>
+		<div class="mengban1" id="mengban1" style="display:none"></div>
+	</body>
+
+</html>
